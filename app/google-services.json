@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "450039312998",
+    "firebase_url": "https://findmestuff-fcd8a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "findmestuff-fcd8a",
+    "storage_bucket": "findmestuff-fcd8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450039312998:android:a8990b2c60e7cdf81f73a7",
+        "android_client_info": {
+          "package_name": "com.r3.findmestuff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450039312998-bgmti4jpd6us9g07mgj0ng56oub90b1t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaOPmWvHG-WzYFvgt4uLdB__Wzj0iLgBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450039312998-bgmti4jpd6us9g07mgj0ng56oub90b1t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
