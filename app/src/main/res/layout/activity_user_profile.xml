@@ -263,6 +263,16 @@
 
 
             </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ffde59"
+                android:text="Update"
+                android:fontFamily="@font/bungee"
+                android:textColor="#000"
+
+                />
+
 
 
         </LinearLayout>

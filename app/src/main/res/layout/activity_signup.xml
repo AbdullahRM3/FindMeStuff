@@ -162,11 +162,11 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="#ffde59"
+                android:onClick="registerUser"
                 android:text="GO"
                 android:textColor="#000"
-                android:transitionName="button_trans"
 
-                />
+                android:transitionName="button_trans" />
 
             <Button
                 android:id="@+id/btn_new_login"
@@ -177,6 +177,7 @@
                 android:background="#00000000"
                 android:elevation="0dp"
                 android:text="Already have an account? LogIN"
+                android:onClick="gotoLogin"
                 android:textColor="#ffde59"
                 android:transitionName="login_signup_trans"
 
