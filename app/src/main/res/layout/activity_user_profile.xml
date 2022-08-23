@@ -36,12 +36,12 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/profile_image"
                 android:fontFamily="@font/bungee"
-                android:text="Muhammed Abdullah"
+
                 android:textColor="#ffde59"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/username"
+                android:id="@+id/username_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/full_name"
@@ -49,7 +49,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/profile_image"
                 android:includeFontPadding="false"
-                android:text="Abdullah R3"
+
                 android:textColor="#ffde59"
                 android:textSize="14sp" />
 
@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/user_icon_small"
                     android:drawablePadding="10dp"
-                    android:text="Muhammed Abdullah"
+
 
                     />
 
@@ -211,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/small_email"
                     android:drawablePadding="10dp"
-                    android:text="Abdullahm1345@gmail.com"
+
 
                     />
 
@@ -234,7 +234,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/small_phone"
                     android:drawablePadding="10dp"
-                    android:text="03481888377"
+
 
                     />
 
@@ -257,7 +257,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/small_pass"
                     android:drawablePadding="10dp"
-                    android:text="123456"
+
 
                     />
 
