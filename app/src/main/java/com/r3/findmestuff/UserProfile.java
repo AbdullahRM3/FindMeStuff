@@ -53,7 +53,7 @@ public class UserProfile extends AppCompatActivity {
         password.getEditText().setText(_PASSWORD);
     }
     public void update(View v){
-        if(isNameChanged()|| isPasswordChanged()){
+        if(isNameChanged()|| isPasswordChanged()|| isEmailChanged()|| isPhoneChanged()){
             Toast.makeText(this,"Data has been updated",Toast.LENGTH_LONG).show();
 
         }
@@ -74,6 +74,26 @@ public class UserProfile extends AppCompatActivity {
         if(!_NAME.equals(fullname.getEditText().getText().toString())){
             reference.child(_USERNAME).child("name").setValue(fullname.getEditText().getText().toString());
             _NAME=fullname.getEditText().getText().toString();
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+    private boolean isEmailChanged(){
+        if(!_EMAIL.equals(email.getEditText().getText().toString())){
+            reference.child(_USERNAME).child("email").setValue(email.getEditText().getText().toString());
+            _EMAIL=email.getEditText().getText().toString();
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+    private boolean isPhoneChanged(){
+        if(!_PHONE.equals(phone.getEditText().getText().toString())){
+            reference.child(_USERNAME).child("phone").setValue(phone.getEditText().getText().toString());
+            _PHONE=phone.getEditText().getText().toString();
             return true;
         }else{
             return false;
