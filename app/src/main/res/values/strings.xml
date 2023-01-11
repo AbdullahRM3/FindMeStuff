@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">FindMeStuff</string>
+
+    <string-array name="spinner1_options">
+        <item>Phone</item>
+        <item>Bag</item>
+        <item>Document</item>
+        <item>Keys</item>
+        <item>Wallet</item>
+        <item>others</item>
+
+
+
+    </string-array>
+
+
 </resources>

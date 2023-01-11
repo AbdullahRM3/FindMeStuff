@@ -108,7 +108,7 @@ TextInputLayout username ,password;
                         String phoneFromDB = snapshot.child(userEnteredUsername).child("phone").getValue(String.class);
                         String usernameFromDB = snapshot.child(userEnteredUsername).child("username").getValue(String.class);
 
-                        Intent intent = new Intent(getApplicationContext(),UserProfile.class);
+                        Intent intent = new Intent(getApplicationContext(),Dashboard.class);
 
                         intent.putExtra("name",nameFromDB);
                         intent.putExtra("username",usernameFromDB);

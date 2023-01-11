@@ -3,8 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/add_photo.xml" value="0.124" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/addlostitem.xml" value="0.2285" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/qrcodescanner.xml" value="0.2285" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/setting.xml" value="0.2285" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_add_more_items.xml" value="0.536" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_dashboard.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_login.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_lost_items.xml" value="0.19709277469003847" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_main.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_qr_code_scanner.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_saved_items.xml" value="0.19709277469003847" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_signup.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_user_profile.xml" value="0.25" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/mipmap-anydpi-v26/ic_photo.xml" value="0.124" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/mipmap-anydpi-v26/ic_photo_round.xml" value="0.124" />
         <entry key="..\:/Users/hamad/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_dashboard.xml" value="0.22402736212056434" />
         <entry key="..\:/Users/hamad/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_login.xml" value="0.22402736212056434" />
         <entry key="..\:/Users/hamad/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_main.xml" value="0.24909420289855072" />
