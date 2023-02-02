@@ -8,8 +8,8 @@
     tools:context=".Dashboard">
 
     <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
 
@@ -19,14 +19,15 @@
             android:background="#000000"
             android:padding="20dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:onClick="gotoUserProfile"
                 android:src="@drawable/user3"
 
 
-                />
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/full_name"
@@ -70,9 +71,9 @@
                 android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:onClick="gotoLostItems"
                 app:cardBackgroundColor="#000"
-                app:cardElevation="10dp"
-                android:onClick="gotoLostItems">
+                app:cardElevation="10dp">
 
 
                 <RelativeLayout
@@ -94,7 +95,7 @@
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/bungee"
                         android:includeFontPadding="false"
-                        android:text="10"
+
                         android:textColor="#ffde59"
                         android:textSize="20sp" />
 
@@ -120,16 +121,15 @@
                 android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:onClick="gotoAddMoreItems"
                 app:cardBackgroundColor="#000"
-                app:cardElevation="10dp"
-                android:onClick="gotoAddMoreItems">
+                app:cardElevation="10dp">
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="5dp"
-                    >
+                    android:padding="5dp">
 
                     <ImageView
                         android:layout_width="66dp"
@@ -167,121 +167,132 @@
 
 
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffde59"
-        android:padding="20dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="486dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="125dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            app:cardBackgroundColor="#000"
-            app:cardElevation="10dp"
-            android:onClick="gotoqrcodescanner"
-            >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffde59"
+            android:padding="20dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="486dp">
 
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/qr_code"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/qrcodescanner" />
-
-                <TextView
-                    android:id="@+id/qr_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/bungee"
-                    android:includeFontPadding="false"
-                    android:text=""
-                    android:textColor="#ffde59"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/qr_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/qr_label"
-                    android:layout_centerInParent="true"
-                    android:includeFontPadding="false"
-                    android:text="QR Code Scanner"
-                    android:textColor="#ffde59"
-                    android:textSize="14sp" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="125dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:onClick="gotoqrcodescanner"
+                app:cardBackgroundColor="#000"
+                app:cardElevation="10dp">
 
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/qr_code"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/qrcodescanner" />
+
+                    <TextView
+                        android:id="@+id/qr_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/bungee"
+                        android:includeFontPadding="false"
+                        android:text=""
+                        android:textColor="#ffde59"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/qr_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/qr_label"
+                        android:layout_centerInParent="true"
+                        android:includeFontPadding="false"
+                        android:text="QR Code Scanner"
+                        android:textColor="#ffde59"
+                        android:textSize="14sp" />
 
 
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="125dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            app:cardBackgroundColor="#000"
-            app:cardElevation="10dp"
-            android:onClick="gotoSavedItems">
+                </RelativeLayout>
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="5dp">
+            </com.google.android.material.card.MaterialCardView>
 
-                <ImageView
-                    android:id="@+id/items_images"
-                    android:layout_width="60dp"
-                    android:layout_height="54dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/magnifying" />
-
-                <TextView
-                    android:id="@+id/items_labels"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/bungee"
-                    android:includeFontPadding="false"
-                    android:text="50"
-                    android:textColor="#ffde59"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/total_reg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/items_labels"
-                    android:layout_centerInParent="true"
-                    android:includeFontPadding="false"
-                    android:text="Items"
-                    android:textColor="#ffde59"
-                    android:textSize="14sp" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="125dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:onClick="gotoSavedItems"
+                app:cardBackgroundColor="#000"
+                app:cardElevation="10dp">
 
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/items_images"
+                        android:layout_width="60dp"
+                        android:layout_height="54dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/magnifying" />
+
+                    <TextView
+                        android:id="@+id/items_labels"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/bungee"
+                        android:includeFontPadding="false"
+
+                        android:textColor="#ffde59"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/total_reg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/items_labels"
+                        android:layout_centerInParent="true"
+                        android:includeFontPadding="false"
+                        android:text="Items"
+                        android:textColor="#ffde59"
+                        android:textSize="14sp" />
 
 
-        </com.google.android.material.card.MaterialCardView>
+                </RelativeLayout>
 
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_Signout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#ffde59"
+            android:onClick="SignOutUser"
+            android:text="SignOut"
+            android:textColor="#000"
+
+            />
 
     </LinearLayout>
-
-
-
-</LinearLayout>
 
 
 </ScrollView>

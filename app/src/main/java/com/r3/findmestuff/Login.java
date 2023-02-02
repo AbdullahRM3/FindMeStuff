@@ -12,9 +12,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +34,9 @@ public class Login extends AppCompatActivity {
 Button callSignUp,btn_login;
 ImageView logo_image;
 TextView logo_name, slogan_name;
-TextInputLayout username ,password;
+ TextInputLayout email ,password;
+
+private FirebaseAuth mAuth;
 
 
     @Override
@@ -40,23 +50,41 @@ TextInputLayout username ,password;
       logo_image = findViewById(R.id.logo_image);
       slogan_name = findViewById(R.id.slogan_name);
       logo_name = findViewById(R.id.logo_name);
-      username = findViewById(R.id.username);
+      email = findViewById(R.id.email);
       password = findViewById(R.id.password);
+      
+      
+      mAuth = FirebaseAuth.getInstance();
 
 
     }
+    private Boolean validateEmail() {
+        String val = email.getEditText().getText().toString();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-    private Boolean validateUsername() {
-        String val = username.getEditText().getText().toString();
         if (val.isEmpty()) {
-            username.setError("Field cannot be empty");
+            email.setError("Field cannot be empty");
+            return false;
+        } else if (!val.matches(emailPattern)) {
+            email.setError("Invalid email address");
             return false;
         } else {
-            username.setError(null);
-            username.setErrorEnabled(false);
+            email.setError(null);
+            email.setErrorEnabled(false);
             return true;
         }
     }
+//    private Boolean validateUsername() {
+//        String val = username.getEditText().getText().toString();
+//        if (val.isEmpty()) {
+//            username.setError("Field cannot be empty");
+//            return false;
+//        } else {
+//            username.setError(null);
+//            username.setErrorEnabled(false);
+//            return true;
+//        }
+//    }
 
     private Boolean validatePassword() {
         String val = password.getEditText().getText().toString();
@@ -73,7 +101,7 @@ TextInputLayout username ,password;
     public void loginUser(View v){
 
         //Validate Login Info
-        if (!validateUsername() | !validatePassword()) {
+        if (!validateEmail() | !validatePassword()) {
             return;
         }
         else{
@@ -84,58 +112,54 @@ TextInputLayout username ,password;
 
     private void isUser() {
 
-        final String userEnteredUsername = username.getEditText().getText().toString().trim();
+        final String userEnteredEmail = email.getEditText().getText().toString().trim();
         final String userEnteredPassword = password.getEditText().getText().toString().trim();
-
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Users");
 
-        Query checkUser = reference.orderByChild("username").equalTo(userEnteredUsername);
+        mAuth.signInWithEmailAndPassword(userEnteredEmail,userEnteredPassword)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(Login.this,"login successful",Toast.LENGTH_SHORT).show();
+                            //UpdateUI(task.getResult().getUser());
+                            UpdateUI();
 
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    username.setError(null);
-                    username.setErrorEnabled(false);
-
-                    String passwordFromDB = snapshot.child(userEnteredUsername).child("password").getValue(String.class);
-                    if(passwordFromDB.equals(userEnteredPassword)){
-                        password.setError(null);
-                        password.setErrorEnabled(false);
-
-                        String nameFromDB = snapshot.child(userEnteredUsername).child("name").getValue(String.class);
-                        String emailFromDB = snapshot.child(userEnteredUsername).child("email").getValue(String.class);
-                        String phoneFromDB = snapshot.child(userEnteredUsername).child("phone").getValue(String.class);
-                        String usernameFromDB = snapshot.child(userEnteredUsername).child("username").getValue(String.class);
-
-                        Intent intent = new Intent(getApplicationContext(),Dashboard.class);
-
-                        intent.putExtra("name",nameFromDB);
-                        intent.putExtra("username",usernameFromDB);
-                        intent.putExtra("email",emailFromDB);
-                        intent.putExtra("phone",phoneFromDB);
-                        intent.putExtra("password",passwordFromDB);
-
-                        startActivity(intent);
                     }
-                    else {
-                        password.setError("Wrong Password");
-                        password.requestFocus();
+                        else{
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
+                                Toast.makeText(Login.this,"Invalid Password",Toast.LENGTH_SHORT).show();
+
+
+                            }else if (task.getException() instanceof FirebaseAuthInvalidUserException){
+                                Toast.makeText(Login.this,"User Does not exist",Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
                     }
+                });
 
-                }
-                else{
-                    username.setError("No Such User exists");
-                    username.requestFocus();
 
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+    }
 
-            }
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
+        UpdateUI();
+    }
+
+    public void UpdateUI() {
+
+        FirebaseUser user =mAuth.getCurrentUser();
+        if (user == null){
+
+            return;
+        }else{
+            Intent intent = new Intent(Login.this,Dashboard.class);
+            startActivity(intent);
+            //insert the thing that will do after login
+        }
 
     }
 
@@ -149,7 +173,7 @@ TextInputLayout username ,password;
         pairs[0] = new Pair<View,String>(logo_image,"logo_image");
         pairs[1] = new Pair<View,String>(logo_name,"logo_image2");
         pairs[2] = new Pair<View,String>(slogan_name,"logo_desc");
-        pairs[3] = new Pair<View,String>(username,"username_trans");
+        pairs[3] = new Pair<View,String>(email,"username_trans");
         pairs[4] = new Pair<View,String>(password,"password_trans");
         pairs[5] = new Pair<View,String>(btn_login,"button_trans");
         pairs[6] = new Pair<View,String>(callSignUp,"login_signup_trans");

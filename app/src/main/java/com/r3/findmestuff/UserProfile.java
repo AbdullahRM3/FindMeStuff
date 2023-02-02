@@ -1,59 +1,136 @@
 package com.r3.findmestuff;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class UserProfile extends AppCompatActivity {
-    TextInputLayout fullname, email, phone, password ;
+    TextInputLayout username, phone, password ;
     TextView fullnameLabel, usernameLabel;
-    String _USERNAME, _NAME,_PASSWORD,_EMAIL,_PHONE;
-    DatabaseReference reference;
+    String _USERNAME,_PASSWORD,_EMAIL,_PHONE, UserID;
+    DatabaseReference mRef;
+    FirebaseUser firebaseUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        reference = FirebaseDatabase.getInstance().getReference("Users");
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        mRef = FirebaseDatabase.getInstance().getReference("Users");
+        UserID = firebaseUser.getUid();
 
         //hooks
-        fullname=findViewById(R.id.update_full_name);
-        email=findViewById(R.id.update_email);
+        username=findViewById(R.id.update_full_name);
         password=findViewById(R.id.update_password);
         phone=findViewById(R.id.update_phone);
         fullnameLabel=findViewById(R.id.full_name);
         usernameLabel=findViewById(R.id.username_profile);
 
         //show all user data
-        showAllUserdata();
+
+        //GetAllUserData();
+
+
+
+
+       showAllUserdata();
     }
+
+ private void GetAllUserData() {
+     Query checkUser = mRef.orderByChild("uid").equalTo(firebaseUser.getUid());
+     checkUser.addValueEventListener(new ValueEventListener() {
+         @Override
+         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+             String nameFromDB = snapshot.child("uid").child("name").getValue(String.class);
+             String emailFromDB = snapshot.child("uid").child("email").getValue(String.class);
+             String phoneFromDB = snapshot.child("uid").child("phone").getValue(String.class);
+             String usernameFromDB = snapshot.child("uid").child("username").getValue(String.class);
+             String passwordFromDB = snapshot.child("uid").child("password").getValue(String.class);
+             Intent intent = new Intent(getApplicationContext(),Dashboard.class);
+
+             intent.putExtra("name",nameFromDB);
+             intent.putExtra("username",usernameFromDB);
+             intent.putExtra("email",emailFromDB);
+             intent.putExtra("phone",phoneFromDB);
+             intent.putExtra("password",passwordFromDB);
+
+
+
+
+
+             startActivity(intent);
+         }
+
+
+         @Override
+         public void onCancelled(@NonNull DatabaseError error) {
+             Toast.makeText(UserProfile.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+         }
+     });
+
+
+  }
+
+
+
 
     private void showAllUserdata() {
 
-        Intent intent = getIntent();
-        _USERNAME = intent.getStringExtra("username");
-        _NAME = intent.getStringExtra("name");
-        _EMAIL = intent.getStringExtra("email");
-        _PHONE = intent.getStringExtra("phone");
-        _PASSWORD = intent.getStringExtra("password");
 
-        fullnameLabel.setText(_NAME);
-        usernameLabel.setText(_USERNAME);
-        fullname.getEditText().setText(_NAME);
-        email.getEditText().setText(_EMAIL);
-        phone.getEditText().setText(_PHONE);
-        password.getEditText().setText(_PASSWORD);
+
+
+        mRef.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserHelperClass helperClass =snapshot.getValue(UserHelperClass.class);
+
+                if (helperClass != null){
+                    _USERNAME = helperClass.username;
+                    _EMAIL = helperClass.email;
+                    _PASSWORD = helperClass.password;
+                    _PHONE = helperClass.phone;
+
+                    fullnameLabel.setText(_USERNAME);
+                    usernameLabel.setText(_EMAIL);
+                    username.getEditText().setText(_USERNAME);
+                    phone.getEditText().setText(_PHONE);
+                    password.getEditText().setText(_PASSWORD);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
     public void update(View v){
-        if(isNameChanged()|| isPasswordChanged()|| isEmailChanged()|| isPhoneChanged()){
+        if(isUserNameChanged()|| isPasswordChanged()|| isPhoneChanged()){
             Toast.makeText(this,"Data has been updated",Toast.LENGTH_LONG).show();
 
         }
@@ -63,36 +140,36 @@ public class UserProfile extends AppCompatActivity {
     private boolean isPasswordChanged(){
         if(!_PASSWORD.equals(password.getEditText().getText().toString()))
         {
-            reference.child(_USERNAME).child("password").setValue(password.getEditText().getText().toString());
+            mRef.child(UserID).child("password").setValue(password.getEditText().getText().toString());
             _PASSWORD=password.getEditText().getText().toString();
             return true;
         }else{
             return false;
         }
     }
-    private boolean isNameChanged(){
-        if(!_NAME.equals(fullname.getEditText().getText().toString())){
-            reference.child(_USERNAME).child("name").setValue(fullname.getEditText().getText().toString());
-            _NAME=fullname.getEditText().getText().toString();
+    private boolean isUserNameChanged(){
+        if(!_USERNAME.equals(username.getEditText().getText().toString())){
+            mRef.child(UserID).child("username").setValue(username.getEditText().getText().toString());
+            _USERNAME=username.getEditText().getText().toString();
             return true;
         }else{
             return false;
         }
 
     }
-    private boolean isEmailChanged(){
+   /* private boolean isEmailChanged(){
         if(!_EMAIL.equals(email.getEditText().getText().toString())){
-            reference.child(_USERNAME).child("email").setValue(email.getEditText().getText().toString());
+            mRef.child(UserID).child("email").setValue(email.getEditText().getText().toString());
             _EMAIL=email.getEditText().getText().toString();
             return true;
         }else{
             return false;
         }
 
-    }
+    }*/
     private boolean isPhoneChanged(){
         if(!_PHONE.equals(phone.getEditText().getText().toString())){
-            reference.child(_USERNAME).child("phone").setValue(phone.getEditText().getText().toString());
+            mRef.child(UserID).child("phone").setValue(phone.getEditText().getText().toString());
             _PHONE=phone.getEditText().getText().toString();
             return true;
         }else{

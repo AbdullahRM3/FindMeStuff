@@ -1,5 +1,6 @@
 package com.r3.findmestuff;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
@@ -10,8 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,10 +30,12 @@ public class Signup extends AppCompatActivity {
     Button reg_callLogin,btn_signup;
     ImageView reg_logo_image;
     TextView reg_logo_name, reg_slogan_name;
-    TextInputLayout reg_username ,reg_password ,reg_name , reg_phone, reg_email;
+    TextInputLayout reg_username ,reg_password , reg_phone, reg_email;
 
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
+    FirebaseDatabase mDatabase;
+    DatabaseReference mRef;
+    FirebaseAuth mAuth;
+
 
 
 
@@ -40,54 +52,28 @@ public class Signup extends AppCompatActivity {
         reg_username = findViewById(R.id.reg_username);
         reg_password = findViewById(R.id.reg_password);
         reg_email = findViewById(R.id.reg_email);
-        reg_name = findViewById(R.id.reg_name);
         reg_phone = findViewById(R.id.reg_PhoneNo);
 
-
-
-
-
-
-
-
+        mAuth= FirebaseAuth.getInstance();
         //saves data in firebase
 
 
     }
 
-    private Boolean validateName() {
-        String val = reg_name.getEditText().getText().toString();
-
-        if (val.isEmpty()) {
-            reg_name.setError("Field cannot be empty");
-            return false;
-        }
-        else {
-            reg_name.setError(null);
-            reg_name.setErrorEnabled(false);
-            return true;
-        }
-    }
-
     private Boolean validateUsername() {
         String val = reg_username.getEditText().getText().toString();
-        String noWhiteSpace = "\\A\\w{4,20}\\z";
 
         if (val.isEmpty()) {
             reg_username.setError("Field cannot be empty");
             return false;
-        } else if (val.length() >= 20) {
-            reg_username.setError("Username too long");
-            return false;
-        } else if (!val.matches(noWhiteSpace)) {
-            reg_username.setError("White Spaces are not allowed");
-            return false;
-        } else {
+        }
+        else {
             reg_username.setError(null);
             reg_username.setErrorEnabled(false);
             return true;
         }
     }
+
 
     private Boolean validateEmail() {
         String val = reg_email.getEditText().getText().toString();
@@ -147,25 +133,47 @@ public class Signup extends AppCompatActivity {
     public void registerUser(View v){
 
 
-        if(!validateName() |!validateUsername() | !validatePhone() | !validateEmail() | !validatePassword())
+        if(!validateUsername() | !validatePhone() | !validateEmail() | !validatePassword())
         {
             return;
         }
 
-        rootNode = FirebaseDatabase.getInstance();
-        reference = rootNode.getReference("Users");
+        mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference("Users");
 
         //get all the values
-        String name = reg_name.getEditText().getText().toString();
+
         String username = reg_username.getEditText().getText().toString();
         String email = reg_email.getEditText().getText().toString();
         String phone = reg_phone.getEditText().getText().toString();
         String password = reg_password.getEditText().getText().toString();
 
-        UserHelperClass helperClass = new UserHelperClass(name,username,password,email,phone);
-        reference.child(username).setValue(helperClass);
 
 
+
+        mAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+            Toast.makeText(Signup.this,"Signup successful",Toast.LENGTH_SHORT).show();
+                String uid = authResult.getUser().getUid();
+                UserHelperClass helperClass = new UserHelperClass(username,password,email,phone);
+
+                mRef.child(uid).setValue(helperClass);
+
+                //Now add data to Realtime Database
+
+            }
+        }
+        ).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof FirebaseAuthUserCollisionException){
+                    Toast.makeText(Signup.this,"Email Already in Use",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }
+        );
     }
 
     public void gotoLogin(View v){

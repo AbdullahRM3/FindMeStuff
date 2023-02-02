@@ -1,27 +1,38 @@
 package com.r3.findmestuff;
 
+import android.content.Intent;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 public class UserHelperClass {
-    String name, username , password ,email ,phone;
+    String uid, username , password ,email ,phone;
 
 
     public UserHelperClass() {
 
     }
 
-    public UserHelperClass(String name, String username, String password, String email, String phone) {
-        this.name = name;
+    public UserHelperClass( String username, String password, String email, String phone) {
+
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
     }
 
-    public String getName() {
-        return name;
+    public String getUid() {
+        return uid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getUsername() {
