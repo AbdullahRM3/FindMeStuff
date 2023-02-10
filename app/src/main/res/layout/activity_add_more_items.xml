@@ -68,6 +68,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/bungee"
+            android:background="@drawable/rounded"
             android:backgroundTint="@color/white"
             android:textColor="#000"
 
@@ -99,6 +101,8 @@
             android:gravity="top"
             android:hint="Item Description"
             android:textColor="#000"
+            android:fontFamily="@font/bungee"
+            android:background="@drawable/rounded"
             android:inputType="textMultiLine"
             android:lines="6"
             android:overScrollMode="always"
@@ -117,6 +121,7 @@
         android:layout_below="@+id/description"
         android:layout_marginStart="30dp"
         android:layout_marginTop="65dp"
+        android:fontFamily="@font/bungee"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/black"

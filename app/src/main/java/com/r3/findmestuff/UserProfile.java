@@ -57,7 +57,7 @@ public class UserProfile extends AppCompatActivity {
        showAllUserdata();
     }
 
- private void GetAllUserData() {
+ /*private void GetAllUserData() {
      Query checkUser = mRef.orderByChild("uid").equalTo(firebaseUser.getUid());
      checkUser.addValueEventListener(new ValueEventListener() {
          @Override
@@ -92,7 +92,7 @@ public class UserProfile extends AppCompatActivity {
      });
 
 
-  }
+  }*/
 
 
 

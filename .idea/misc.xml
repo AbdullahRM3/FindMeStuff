@@ -6,6 +6,7 @@
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/add_photo.xml" value="0.124" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/addlostitem.xml" value="0.2285" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/qrcodescanner.xml" value="0.2285" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/rounded.xml" value="0.1" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/drawable/setting.xml" value="0.2285" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_add_more_items.xml" value="0.264" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_dashboard.xml" value="0.176" />
@@ -17,6 +18,9 @@
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_signup.xml" value="0.152" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_user_profile.xml" value="0.25" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/card_view_items.xml" value="0.4" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/generate_qr.xml" value="0.20478837109876016" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/update_item_details.xml" value="0.264" />
+        <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/menu/search.xml" value="0.20478837109876016" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/mipmap-anydpi-v26/ic_photo.xml" value="0.124" />
         <entry key="..\:/Users/abdul/AndroidStudioProjects/FindMeStuff3/app/src/main/res/mipmap-anydpi-v26/ic_photo_round.xml" value="0.124" />
         <entry key="..\:/Users/hamad/AndroidStudioProjects/FindMeStuff3/app/src/main/res/layout/activity_dashboard.xml" value="0.22402736212056434" />

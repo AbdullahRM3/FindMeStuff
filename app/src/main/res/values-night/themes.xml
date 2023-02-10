@@ -14,4 +14,13 @@
         <!-- Customize your theme here. -->
         <item name="android:windowContentTransitions">true</item>
     </style>
+
+    <style name="Theme.AppCompat.DarkActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="title">Items</item>
+        <item name="fontFamily">@font/bungee</item>
+
+
+    </style>
+
 </resources>

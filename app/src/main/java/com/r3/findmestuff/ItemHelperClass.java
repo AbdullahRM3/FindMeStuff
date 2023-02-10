@@ -1,7 +1,7 @@
 package com.r3.findmestuff;
 
 public class ItemHelperClass {
-    String Iuid,Iname, Idescription;
+    String Iuid,Iname, Idescription,IUrl;
 
 
     public ItemHelperClass() {
@@ -10,11 +10,20 @@ public class ItemHelperClass {
 
 
 
-    public ItemHelperClass(String Iname, String Idescription,String Iuid) {
+    public ItemHelperClass(String Iname, String Idescription,String Iuid,String IUrl) {
         this.Iname = Iname;
         this.Idescription = Idescription;
+        this.IUrl=IUrl;
 
 
+    }
+
+    public String getIUrl() {
+        return IUrl;
+    }
+
+    public void setIUrl(String IUrl) {
+        this.IUrl = IUrl;
     }
 
     public String getIuid() {

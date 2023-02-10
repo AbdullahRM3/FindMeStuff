@@ -7,18 +7,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.github.drjacky.imagepicker.ImagePicker;
 import com.github.drjacky.imagepicker.constant.ImageProvider;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,18 +30,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.Random;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
 
 public class AddMoreItems extends AppCompatActivity {
-ImageView iimage;
+ImageView add_iimage;
 TextInputLayout add_item_name,add_description;
 Button add_item_btn;
-String Iname,Idescription,UserID;
+String Iname,Idescription,UserID,IUrl,Iuid;
     FirebaseDatabase mDatabase;
     DatabaseReference mRef;
+    //StorageReference msRef= FirebaseStorage.getInstance().getReference("Item_images");
+    Uri ImageUri;
     FirebaseUser firebaseUser;
     FloatingActionButton fab;
 
@@ -49,11 +57,10 @@ String Iname,Idescription,UserID;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_more_items);
-        mRef = mDatabase.getInstance().getReference("Users");
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        mRef = FirebaseDatabase.getInstance().getReference("Users");
         UserID = firebaseUser.getUid();
-        iimage = findViewById(R.id.item_image);
+        add_iimage = findViewById(R.id.item_image);
         //hooks
         add_item_name =findViewById(R.id.Item_Name);
         add_description =findViewById(R.id.description);
@@ -75,8 +82,8 @@ String Iname,Idescription,UserID;
         ActivityResultLauncher<Intent> launcher=
                 registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(ActivityResult result)->{
                     if(result.getResultCode()==RESULT_OK){
-                        Uri uri=result.getData().getData();
-                        iimage.setImageURI(uri);
+                         ImageUri=result.getData().getData();
+                        add_iimage.setImageURI(ImageUri);
                         // Use the uri to load the image
                     }else if(result.getResultCode()==ImagePicker.RESULT_ERROR){
                         // Use ImagePicker.Companion.getError(result.getData()) to show an error
@@ -140,8 +147,9 @@ String Iname,Idescription,UserID;
         }
     }
 
-    public void AddItem(View v){
 
+
+    public void AddItem(View v){
 
         if(!validateItemName() |!validateDescription())
         {
@@ -151,34 +159,43 @@ String Iname,Idescription,UserID;
 
             return;
         }
-            mDatabase = FirebaseDatabase.getInstance();
-            mRef = mDatabase.getReference("Users").child(UserID).child("items");
+
+
+            FirebaseStorage Storage = FirebaseStorage.getInstance();
+       final StorageReference msRef = Storage.getReference("images"+new Random().nextInt(50));
+
             Iname = add_item_name.getEditText().getText().toString();
             Idescription = add_description.getEditText().getText().toString();
 
 
 
+            msRef.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    msRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            IUrl =uri.toString();
+                            mDatabase = FirebaseDatabase.getInstance();
+                            mRef = mDatabase.getReference("Users").child(UserID).child("items");
+                            Iuid = mRef.push().getKey();
+                            ItemHelperClass IHelperClass = new ItemHelperClass(Iname,Idescription,Iuid,IUrl);
+                            mRef.child(Iuid).setValue( IHelperClass);
+                            Toast.makeText(AddMoreItems.this, "Item Added", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
+            });
 
             //get all the values
-            mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-
-                    String Iuid = mRef.push().getKey();
-
-                    ItemHelperClass IHelperClass = new ItemHelperClass(Iname,Idescription,Iuid);
-                    mRef.child(Iuid).setValue( IHelperClass);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(AddMoreItems.this, "error", Toast.LENGTH_SHORT).show();
-                }
-            });
 
 
 
     }
+
 
 }
