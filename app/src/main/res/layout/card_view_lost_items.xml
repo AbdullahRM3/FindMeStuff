@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="380dp"
+    android:layout_height="250dp"
+    app:cardBackgroundColor="#ffde59"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="12dp"
+    app:cardMaxElevation="14dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
+
+
+    <RelativeLayout
+        android:layout_width="339dp"
+        android:layout_height="191dp"
+        android:orientation="vertical"
+
+        >
+
+
+        <!-- ImageVIew to display our Course Image -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/itemlost_pic"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            android:src="@drawable/image_lost_prof" />
+
+        <!-- Text View to display Course Name -->
+
+
+        <TextView
+            android:id="@+id/item_LName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/itemlost_pic"
+            android:fontFamily="@font/bungee"
+            android:text="item_name"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+
+        <TextView
+            android:id="@+id/item_LDescription"
+            android:layout_width="213dp"
+            android:layout_height="113dp"
+            android:layout_below="@id/item_LName"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/itemlost_pic"
+            android:fontFamily="@font/bungee"
+            android:text="item_Description"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_Found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemlost_pic"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="#000"
+            android:fontFamily="@font/bungee"
+            android:text=" Found"
+            android:textColor="#FFFFFF" />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

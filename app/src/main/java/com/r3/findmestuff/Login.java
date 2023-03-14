@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
@@ -74,17 +75,7 @@ private FirebaseAuth mAuth;
             return true;
         }
     }
-//    private Boolean validateUsername() {
-//        String val = username.getEditText().getText().toString();
-//        if (val.isEmpty()) {
-//            username.setError("Field cannot be empty");
-//            return false;
-//        } else {
-//            username.setError(null);
-//            username.setErrorEnabled(false);
-//            return true;
-//        }
-//    }
+
 
     private Boolean validatePassword() {
         String val = password.getEditText().getText().toString();
@@ -110,38 +101,44 @@ private FirebaseAuth mAuth;
 
     }
 
-    private void isUser() {
 
-        final String userEnteredEmail = email.getEditText().getText().toString().trim();
-        final String userEnteredPassword = password.getEditText().getText().toString().trim();
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Users");
+   private void isUser() {
 
-        mAuth.signInWithEmailAndPassword(userEnteredEmail,userEnteredPassword)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(Login.this,"login successful",Toast.LENGTH_SHORT).show();
-                            //UpdateUI(task.getResult().getUser());
-                            UpdateUI();
+       final String userEnteredEmail = email.getEditText().getText().toString().trim();
+       final String userEnteredPassword = password.getEditText().getText().toString().trim();
+       DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Users");
 
-                    }
-                        else{
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
-                                Toast.makeText(Login.this,"Invalid Password",Toast.LENGTH_SHORT).show();
+       // Show progress bar
+       ProgressDialog progressDialog = new ProgressDialog(this);
+       progressDialog.setMessage("Logging in...");
+       progressDialog.setCancelable(false);
+       progressDialog.show();
 
+       mAuth.signInWithEmailAndPassword(userEnteredEmail,userEnteredPassword)
+               .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                   @Override
+                   public void onComplete(@NonNull Task<AuthResult> task) {
+                       progressDialog.dismiss();
+                       if(task.isSuccessful()){
+                           Toast.makeText(Login.this,"login successful",Toast.LENGTH_SHORT).show();
+                           //UpdateUI(task.getResult().getUser());
+                           UpdateUI();
 
-                            }else if (task.getException() instanceof FirebaseAuthInvalidUserException){
-                                Toast.makeText(Login.this,"User Does not exist",Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-                    }
-                });
-
+                       }
+                       else{
+                           if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
+                               Toast.makeText(Login.this,"Invalid Password",Toast.LENGTH_SHORT).show();
 
 
-    }
+                           }else if (task.getException() instanceof FirebaseAuthInvalidUserException){
+                               Toast.makeText(Login.this,"User Does not exist",Toast.LENGTH_SHORT).show();
+
+                           }
+                       }
+                   }
+               });
+   }
+
 
     @Override
     protected void onStart() {

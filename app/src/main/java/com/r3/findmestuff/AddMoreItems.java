@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,10 +16,12 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.drjacky.imagepicker.ImagePicker;
 import com.github.drjacky.imagepicker.constant.ImageProvider;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -45,12 +48,14 @@ ImageView add_iimage;
 TextInputLayout add_item_name,add_description;
 Button add_item_btn;
 String Iname,Idescription,UserID,IUrl,Iuid;
+
     FirebaseDatabase mDatabase;
     DatabaseReference mRef;
     //StorageReference msRef= FirebaseStorage.getInstance().getReference("Item_images");
     Uri ImageUri;
     FirebaseUser firebaseUser;
     FloatingActionButton fab;
+
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -65,6 +70,7 @@ String Iname,Idescription,UserID,IUrl,Iuid;
         add_item_name =findViewById(R.id.Item_Name);
         add_description =findViewById(R.id.description);
         add_item_btn =findViewById(R.id.btn_add);
+
 
 
 
@@ -147,9 +153,54 @@ String Iname,Idescription,UserID,IUrl,Iuid;
         }
     }
 
-
-
     public void AddItem(View v){
+
+        if(!validateItemName() |!validateDescription())
+        {
+            return;
+        }
+
+        // Show progress bar
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Adding Item....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        FirebaseStorage Storage = FirebaseStorage.getInstance();
+        final StorageReference msRef = Storage.getReference("images"+new Random().nextInt(50));
+
+        Iname = add_item_name.getEditText().getText().toString();
+        Idescription = add_description.getEditText().getText().toString();
+
+        msRef.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                msRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        IUrl =uri.toString();
+                        mDatabase = FirebaseDatabase.getInstance();
+                        mRef = mDatabase.getReference("Users").child(UserID).child("items");
+                        Iuid = mRef.push().getKey();
+                        ItemHelperClass IHelperClass = new ItemHelperClass(Iname,Idescription,Iuid,IUrl,false);
+                        mRef.child(Iuid).setValue(IHelperClass);
+                        progressDialog.dismiss();
+                        Toast.makeText(AddMoreItems.this, "Item Added", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(AddMoreItems.this, "Item Failed to upload", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //get all the values
+    }
+
+ /*   public void AddItem(View v){
 
         if(!validateItemName() |!validateDescription())
         {
@@ -169,6 +220,7 @@ String Iname,Idescription,UserID,IUrl,Iuid;
 
 
 
+
             msRef.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -177,17 +229,24 @@ String Iname,Idescription,UserID,IUrl,Iuid;
                         @Override
                         public void onSuccess(Uri uri) {
                             IUrl =uri.toString();
+
                             mDatabase = FirebaseDatabase.getInstance();
                             mRef = mDatabase.getReference("Users").child(UserID).child("items");
+
                             Iuid = mRef.push().getKey();
-                            ItemHelperClass IHelperClass = new ItemHelperClass(Iname,Idescription,Iuid,IUrl);
-                            mRef.child(Iuid).setValue( IHelperClass);
+                            ItemHelperClass IHelperClass = new ItemHelperClass(Iname,Idescription,Iuid,IUrl,false);
+                            mRef.child(Iuid).setValue(IHelperClass);
                             Toast.makeText(AddMoreItems.this, "Item Added", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
 
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
             });
 
             //get all the values
@@ -195,7 +254,7 @@ String Iname,Idescription,UserID,IUrl,Iuid;
 
 
 
-    }
+    }*/
 
 
 }

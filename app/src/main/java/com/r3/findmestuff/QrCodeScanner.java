@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +39,9 @@ public class QrCodeScanner extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Intent intent = new Intent(QrCodeScanner.this, ItemScannedResult.class);
+                        intent.putExtra("QR_RESULT", result.getText());
+                        startActivity(intent);
                         Toast.makeText(QrCodeScanner.this, result.getText(), Toast.LENGTH_SHORT).show();
                     }
                 });

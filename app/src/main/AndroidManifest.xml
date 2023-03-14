@@ -5,6 +5,10 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -14,23 +18,28 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_findmestufficon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_findmestufficon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FindMeStuff"
         tools:targetApi="31">
+        <activity
+            android:name=".ItemScannedResult"
+            android:exported="false" />
         <activity
             android:name=".ItemHelperClass"
             android:exported="false"
             tools:ignore="Instantiatable" />
         <activity
             android:name=".LostItems"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DarkActionBar" />
         <activity
             android:name=".SavedItems"
-            android:theme="@style/Theme.AppCompat.DarkActionBar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DarkActionBar" />
         <activity
             android:name=".AddMoreItems"
             android:exported="false" />
@@ -58,7 +67,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service
+            android:name=".PushNotificationClass" android:exported="false"
+            android:permission="TODO"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

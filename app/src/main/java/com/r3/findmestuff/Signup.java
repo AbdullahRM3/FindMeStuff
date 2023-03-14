@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
@@ -148,7 +149,11 @@ public class Signup extends AppCompatActivity {
         String phone = reg_phone.getEditText().getText().toString();
         String password = reg_password.getEditText().getText().toString();
 
-
+        // Show progress bar
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Signing Up...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
 
         mAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -159,7 +164,7 @@ public class Signup extends AppCompatActivity {
                 UserHelperClass helperClass = new UserHelperClass(username,password,email,phone);
 
                 mRef.child(uid).setValue(helperClass);
-
+                progressDialog.dismiss();
                 //Now add data to Realtime Database
 
             }
@@ -169,7 +174,7 @@ public class Signup extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 if (e instanceof FirebaseAuthUserCollisionException){
                     Toast.makeText(Signup.this,"Email Already in Use",Toast.LENGTH_SHORT).show();
-
+                    progressDialog.dismiss();
                 }
             }
         }

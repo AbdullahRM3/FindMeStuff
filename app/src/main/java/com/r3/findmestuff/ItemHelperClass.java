@@ -1,7 +1,8 @@
 package com.r3.findmestuff;
 
 public class ItemHelperClass {
-    String Iuid,Iname, Idescription,IUrl;
+    private boolean itemBoolean ;
+    private String Iuid,Iname, Idescription,IUrl;
 
 
     public ItemHelperClass() {
@@ -10,12 +11,23 @@ public class ItemHelperClass {
 
 
 
-    public ItemHelperClass(String Iname, String Idescription,String Iuid,String IUrl) {
+    public ItemHelperClass(String Iname, String Idescription,String Iuid,String IUrl, boolean itemBoolean) {
         this.Iname = Iname;
         this.Idescription = Idescription;
         this.IUrl=IUrl;
+        this.itemBoolean = itemBoolean;
 
 
+    }
+
+
+
+    public boolean isItemBoolean() {
+        return itemBoolean;
+    }
+
+    public void setItemBoolean(boolean itemBoolean) {
+        this.itemBoolean = itemBoolean;
     }
 
     public String getIUrl() {

@@ -47,52 +47,11 @@ public class UserProfile extends AppCompatActivity {
         fullnameLabel=findViewById(R.id.full_name);
         usernameLabel=findViewById(R.id.username_profile);
 
-        //show all user data
-
-        //GetAllUserData();
-
-
-
 
        showAllUserdata();
     }
 
- /*private void GetAllUserData() {
-     Query checkUser = mRef.orderByChild("uid").equalTo(firebaseUser.getUid());
-     checkUser.addValueEventListener(new ValueEventListener() {
-         @Override
-         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-             String nameFromDB = snapshot.child("uid").child("name").getValue(String.class);
-             String emailFromDB = snapshot.child("uid").child("email").getValue(String.class);
-             String phoneFromDB = snapshot.child("uid").child("phone").getValue(String.class);
-             String usernameFromDB = snapshot.child("uid").child("username").getValue(String.class);
-             String passwordFromDB = snapshot.child("uid").child("password").getValue(String.class);
-             Intent intent = new Intent(getApplicationContext(),Dashboard.class);
-
-             intent.putExtra("name",nameFromDB);
-             intent.putExtra("username",usernameFromDB);
-             intent.putExtra("email",emailFromDB);
-             intent.putExtra("phone",phoneFromDB);
-             intent.putExtra("password",passwordFromDB);
-
-
-
-
-
-             startActivity(intent);
-         }
-
-
-         @Override
-         public void onCancelled(@NonNull DatabaseError error) {
-             Toast.makeText(UserProfile.this, error.toString(), Toast.LENGTH_SHORT).show();
-
-         }
-     });
-
-
-  }*/
 
 
 
@@ -157,16 +116,6 @@ public class UserProfile extends AppCompatActivity {
         }
 
     }
-   /* private boolean isEmailChanged(){
-        if(!_EMAIL.equals(email.getEditText().getText().toString())){
-            mRef.child(UserID).child("email").setValue(email.getEditText().getText().toString());
-            _EMAIL=email.getEditText().getText().toString();
-            return true;
-        }else{
-            return false;
-        }
-
-    }*/
     private boolean isPhoneChanged(){
         if(!_PHONE.equals(phone.getEditText().getText().toString())){
             mRef.child(UserID).child("phone").setValue(phone.getEditText().getText().toString());
