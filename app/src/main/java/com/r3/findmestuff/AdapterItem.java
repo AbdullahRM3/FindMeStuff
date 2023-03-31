@@ -73,7 +73,7 @@ public class AdapterItem extends FirebaseRecyclerAdapter<ItemHelperClass,Adapter
     @Override
     protected void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position , @NonNull ItemHelperClass model) {
 
-        String CHANNEL_ID = "LostItem";
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         UserID = firebaseUser.getUid();
         mRef= FirebaseDatabase.getInstance().getReference("Users").child(UserID);
@@ -269,8 +269,10 @@ public class AdapterItem extends FirebaseRecyclerAdapter<ItemHelperClass,Adapter
             @Override
             public void onClick(View view) {
 
-
-                final DialogPlus dialogPlus = DialogPlus.newDialog(holder.itemPic.getContext())
+                mRef.child("items").child(getRef(position).getKey()).child("itemBoolean").setValue(true);
+                Toast.makeText(holder.btn_lost.getContext(), "Item has been lost.", Toast.LENGTH_SHORT).show();
+                //dialogplus has been hidden for further development
+/*                final DialogPlus dialogPlus = DialogPlus.newDialog(holder.itemPic.getContext())
                         .setContentHolder(new ViewHolder(R.layout.lost_item_details))
                         .setExpanded(true,890)
                         .create();
@@ -300,7 +302,7 @@ public class AdapterItem extends FirebaseRecyclerAdapter<ItemHelperClass,Adapter
 
                     }
 
-                });
+                });*/
             }
         });
 

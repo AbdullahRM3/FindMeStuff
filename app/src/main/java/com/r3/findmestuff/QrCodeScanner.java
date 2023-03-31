@@ -42,7 +42,7 @@ public class QrCodeScanner extends AppCompatActivity {
                         Intent intent = new Intent(QrCodeScanner.this, ItemScannedResult.class);
                         intent.putExtra("QR_RESULT", result.getText());
                         startActivity(intent);
-                        Toast.makeText(QrCodeScanner.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(QrCodeScanner.this, result.getText(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

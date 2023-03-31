@@ -92,6 +92,7 @@
             android:layout_gravity="right"
             android:elevation="0dp"
             android:textColor="#ffde59"
+            android:onClick="ForgotPasswordDialog"
             android:layout_margin="5dp"
             />
 

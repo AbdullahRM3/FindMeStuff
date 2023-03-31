@@ -8,9 +8,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
+
+import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
 Button callSignUp,btn_login;
@@ -53,8 +59,8 @@ private FirebaseAuth mAuth;
       logo_name = findViewById(R.id.logo_name);
       email = findViewById(R.id.email);
       password = findViewById(R.id.password);
-      
-      
+
+
       mAuth = FirebaseAuth.getInstance();
 
 
@@ -120,9 +126,16 @@ private FirebaseAuth mAuth;
                    public void onComplete(@NonNull Task<AuthResult> task) {
                        progressDialog.dismiss();
                        if(task.isSuccessful()){
-                           Toast.makeText(Login.this,"login successful",Toast.LENGTH_SHORT).show();
-                           //UpdateUI(task.getResult().getUser());
-                           UpdateUI();
+                           if(mAuth.getCurrentUser().isEmailVerified())
+                           {
+                               Toast.makeText(Login.this,"login successful",Toast.LENGTH_SHORT).show();
+                               //UpdateUI(task.getResult().getUser());
+                               UpdateUI();
+                           }
+                           else{
+                               Toast.makeText(Login.this,"pls verify account before login",Toast.LENGTH_SHORT).show();
+                           }
+
 
                        }
                        else{
@@ -131,7 +144,7 @@ private FirebaseAuth mAuth;
 
 
                            }else if (task.getException() instanceof FirebaseAuthInvalidUserException){
-                               Toast.makeText(Login.this,"User Does not exist",Toast.LENGTH_SHORT).show();
+                               Toast.makeText(Login.this,"User email Does not exist",Toast.LENGTH_SHORT).show();
 
                            }
                        }
@@ -178,6 +191,58 @@ private FirebaseAuth mAuth;
 
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login.this,pairs);
         startActivity(intent,options.toBundle());
+
+    }
+
+    public void ForgotPasswordDialog(android.view.View view){
+
+        final DialogPlus dialogPlus = DialogPlus.newDialog(Login.this)
+                .setContentHolder(new ViewHolder(R.layout.reset_password))
+                .setExpanded(true,400)
+                .create();
+        View v = dialogPlus.getHolderView();
+        EditText emailPass = v.findViewById(R.id.email_pass);
+
+        Button reset = v.findViewById(R.id.btn_reset);
+        dialogPlus.show();
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               String email =emailPass.getText().toString().trim();
+
+                if(email.isEmpty()){
+
+                    emailPass.setError("Email is Required");
+                    emailPass.requestFocus();
+                    return;
+                }
+                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    emailPass.setError("Please provide a valid email");
+                    emailPass.requestFocus();
+                    return;
+
+                }
+                ProgressDialog progressDialog = new ProgressDialog(Login.this);
+                progressDialog.setMessage("sending password reset code");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            progressDialog.dismiss();
+
+                            Toast.makeText(Login.this,"Check your Email to reset password",Toast.LENGTH_LONG).show();
+                        }else{
+                            progressDialog.dismiss();
+                            Toast.makeText(Login.this,"try again, Something went wrong",Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+            }
+        });
 
     }
 

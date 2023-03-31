@@ -159,14 +159,24 @@ public class Signup extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-            Toast.makeText(Signup.this,"Signup successful",Toast.LENGTH_SHORT).show();
-                String uid = authResult.getUser().getUid();
-                UserHelperClass helperClass = new UserHelperClass(username,password,email,phone);
 
-                mRef.child(uid).setValue(helperClass);
+                mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(Signup.this,"Signup successful pls verify on email to login",Toast.LENGTH_SHORT).show();
+                            String uid = authResult.getUser().getUid();
+                            UserHelperClass helperClass = new UserHelperClass(username,password,email,phone);
+                            mRef.child(uid).setValue(helperClass);
+                        }
+                        else{
+                            Toast.makeText(Signup.this,"email not sent for verification",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 progressDialog.dismiss();
                 //Now add data to Realtime Database
-
+                mAuth.signOut();
             }
         }
         ).addOnFailureListener(new OnFailureListener() {

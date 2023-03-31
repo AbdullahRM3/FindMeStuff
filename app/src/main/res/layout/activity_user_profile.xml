@@ -75,34 +75,32 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:onClick="Update_Password"
                     android:padding="5dp">
+
 
                     <ImageView
                         android:id="@+id/lost_image"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="17dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/lostitem" />
-
-                    <TextView
-                        android:id="@+id/lost_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/bungee"
-                        android:includeFontPadding="false"
-                        android:text="10"
-                        android:textColor="#ffde59"
-                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/lost_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/lost_label"
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="0dp"
+                        android:layout_below="@+id/lost_image"
+                        android:layout_marginBottom="25dp"
+                        android:fontFamily="@font/bungee"
                         android:includeFontPadding="false"
-                        android:text="lost items"
+                        android:text="Update Password"
                         android:textColor="#ffde59"
                         android:textSize="14sp" />
 
@@ -124,34 +122,33 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:onClick="Delete_Account"
                     android:padding="5dp">
+
 
                     <ImageView
                         android:id="@+id/items_image"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/magnifying" />
-
-                    <TextView
-                        android:id="@+id/items_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/bungee"
-                        android:includeFontPadding="false"
-                        android:text="50"
-                        android:textColor="#ffde59"
-                        android:textSize="20sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="95dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/delete_forever_24" />
 
                     <TextView
                         android:id="@+id/registered_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/items_label"
-                        android:layout_centerInParent="true"
+                        android:layout_below="@+id/items_image"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="-6dp"
+                        android:layout_marginBottom="39dp"
+                        android:fontFamily="@font/bungee"
                         android:includeFontPadding="false"
-                        android:text="Items"
+                        android:text="Delete Account"
                         android:textColor="#ffde59"
                         android:textSize="14sp" />
 
@@ -217,29 +214,7 @@
 
 
             </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/update_password"
-                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:hint="Password"
-                app:hintTextColor="#ffde59"
-                android:layout_marginBottom="10dp"
 
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/small_pass"
-                    android:drawablePadding="10dp"
-
-
-                    />
-
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:layout_width="match_parent"
